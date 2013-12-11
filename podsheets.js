@@ -50,7 +50,7 @@ function getRSSFeed(key, id, res) {
   var seenFirstRow = false;
 
   spreadsheet.getRows(id)
-    .on('error', function(data) {
+    .on('error', function(err) {
       if (seenFirstRow)
         res.end();
       else {
@@ -61,11 +61,11 @@ function getRSSFeed(key, id, res) {
     })
     .on('data', function(data) {
       var row = {
-        title: data[0],
+        title: data[0] || '',
         date: data[1] ? new Date(Date.parse(data[1])) : new Date(),
-        desc: data[2],
-        siteURL: data[3],
-        mediaURL: data[4]
+        desc: data[2] || '',
+        siteURL: data[3] || '',
+        mediaURL: data[4] || ''
       };
       if (!VALID_URL.test(row.siteURL)) return;
       if (!seenFirstRow) {
