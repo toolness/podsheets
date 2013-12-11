@@ -1,0 +1,23 @@
+{
+  "name": "podsheets",
+  "version": "0.0.1",
+  "description": "RSS podcast sheets sourced from Google spreadsheets.",
+  "main": "podsheets.js",
+  "dependencies": {
+    "google-spreadsheet-stream": "~0.1.1",
+    "underscore": "~1.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/toolness/podsheets.git"
+  },
+  "author": "Atul Varma <varmaa@gmail.com>",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/toolness/podsheets/issues"
+  }
+}
