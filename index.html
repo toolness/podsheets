@@ -2,3 +2,62 @@
 <meta charset="utf-8">
 <title>podsheets</title>
 <h1>podsheets</h1>
+<form id="url-form">
+  Spreadsheet URL or key: <input type="text" id="url">
+  <input type="submit">
+</form>
+<ul id="urls"></ul>
+<script>
+var $ = document.querySelector.bind(document);
+
+function getWorksheets(key, cb) {
+  var url = 'https://spreadsheets.google.com/feeds/worksheets/' +
+            key + '/public/basic?alt=json';
+  var req = new XMLHttpRequest();
+
+  req.open('GET', url);
+  req.onload = function() {
+    if (req.status != 200)
+      return alert('Error retrieving spreadsheet ' +
+                   '(HTTP ' + req.status + ').');
+
+    var info = JSON.parse(req.responseText);
+    var worksheets = [];
+    info.feed.entry.forEach(function(entry) {
+      var idParts = entry.id['$t'].split('/');
+      worksheets.push({
+        title: entry.title['$t'],
+        id: idParts[idParts.length-1]
+      });
+    });
+    cb(worksheets);
+  };
+  req.send(null);
+}
+
+$('#url-form').onsubmit = function(e) {
+  var url = $('#url').value;
+  var match = url.match(/key=([A-Za-z0-9_]+)/) ||
+              url.match(/^([A-Za-z0-9_]+)$/);
+  var key = match && match[1];
+  var urls = $('#urls');
+
+  urls.innerHTML = '';
+  e.preventDefault();
+
+  if (!key)
+    return alert('That is not a valid Google Spreadsheet URL.');
+
+  getWorksheets(key, function(sheets) {
+    sheets.forEach(function(sheet) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+
+      a.textContent = sheet.title;
+      a.setAttribute('href', '/' + key + '/' + sheet.id);
+      li.appendChild(a);
+      urls.appendChild(li);
+    });
+  });
+};
+</script>
