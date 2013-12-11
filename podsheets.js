@@ -4,9 +4,6 @@ const http = require('http');
 const _ = require('underscore');
 const GoogleSpreadsheet = require('google-spreadsheet-stream');
 
-const TEST_KEY = '0AjLje2rCgZrAdHJFQ0RseGhHbGRzRmxPNUtuQ3RpeXc';
-const TEST_SHEET_ID = 'od5';
-
 const PORT = process.env['PORT'] || 3000;
 const DEBUG = 'DEBUG' in process.env;
 const SPREADSHEET_PATH = /^\/([A-Za-z0-9_]+)\/([A-Za-z0-9_]+)$/;
